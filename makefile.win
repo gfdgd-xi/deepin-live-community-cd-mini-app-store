@@ -1,0 +1,34 @@
+# Project: repair-del-program
+# Makefile created by Red Panda C++ 0.14.2
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+RES      = repair-del-program_private.res
+OBJ      = main.o $(RES)
+LINKOBJ  = main.o $(RES)
+CLEANOBJ  =  main.o $(RES)
+LIBS     = 
+INCS     =  
+CXXINCS  =  
+BIN      = repair-del-program.exe
+CXXFLAGS = $(CXXINCS)  -Wall -Wextra -g3 -pipe -D__DEBUG__
+CFLAGS   = $(INCS)  -Wall -Wextra -g3 -pipe -D__DEBUG__
+RM       = del /q /f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(CLEANOBJ) $(BIN) > NUL 2>&1
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+main.o: main.cpp
+	$(CPP) -c C:/Users/30256/Desktop/repair-del-program/main.cpp -o main.o $(CXXFLAGS)  -finput-charset=gbk -fexec-charset=gbk
+
+repair-del-program_private.res: repair-del-program_private.rc 
+	$(WINDRES) -i repair-del-program_private.rc --input-format=rc -o repair-del-program_private.res -O coff 
+
