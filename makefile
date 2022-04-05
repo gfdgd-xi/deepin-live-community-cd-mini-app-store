@@ -16,7 +16,7 @@ RM       = rm -rf
 
 .PHONY: all all-before all-after clean clean-custom
 
-all: all-before $(BIN) all-after
+#all: all-before $(BIN) all-after
 
 clean: clean-custom
 	${RM} $(CLEANOBJ) $(BIN) > NUL 2>&1
