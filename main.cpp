@@ -10,6 +10,7 @@ using namespace std;
 const string version = "1.0.0";
 const int contTipsWidth = 30;
 const int programListNumber = 3;
+const string checkOption[2] = {"", "-y"};
 string list1[listNumber] = {"deepin 应用商店", "deepin 启动盘制作工具", "deepin 计算器", "deepin 相机", "deepin 邮件", "deepin 帮助", "deepin 视频", "deepin 音乐", "deepin 文档查看器", "deepin 备份还原工具", "deepin 磁盘管理", "deepin 字体管理器", "deepin 终端", "deepin 看图", "deepin 安装器", "deepin 日志收集工具", "deepin 语言记事本", "deepin-wine6", "deepin-wine5"};
 string list2[listNumber] = {"CPU-Z", "FurMark", "Keyboard_Test_Utility"};
 string list3[listNumber] = {"deepin 应用商店", "星火应用商店"};
@@ -21,6 +22,7 @@ string *programListPackageName[programListNumber] = {list1PackageName, list2Pack
 struct Opt{
 	int argc;
 	char** argv;
+	bool notCheck;
 };
 Opt o;
 namespace {
@@ -47,7 +49,7 @@ namespace {
 	}
 	void InstallDeepinWine6(){
 		system("sudo apt update");
-		system("sudo apt install deepin-wine6-stable -y");
+		system(("sudo apt install deepin-wine6-stable -y" + checkOption[o.notCheck]).c_str());
 		system("deepin-wine6-stable exit");
 		DownloadFile("https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/Simsun/simsun.ttc", "~/.wine/drive_c/windows/Fonts");
 		DownloadFile("https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/Simsun/simsunb.ttf", "~/.wine/drive_c/windows/Fonts");
@@ -77,13 +79,22 @@ namespace {
 	}
 	int GetHelp(){
 		for(int i=1;i<o.argc;i++){
-			if(strcmp(o.argv[i], "--help") == 0 || strcmp(o.argv[i], "/?") == 0){ // 判断参数有没有“--help”或“/?”
-				// 这种比较方式比较慢如果参数比较长
-				cout << "帮助：" << endl;
-				cout << setw(4) << "--help 显示帮助" << endl;
-				cout << setw(4) << "--version 显示版本" << endl;
+			if(strcmp(o.argv[i], "-y") == 0){
+				o.notCheck = true;
+			}
+			else if(strcmp(o.argv[i], "--version") == 0){
+				cout << "软件版本：" << version << endl;
 				return 1; // 停止参数的判断
 			}
+			else if(strcmp(o.argv[i], "--help") == 0 || strcmp(o.argv[i], "/?") == 0){ // 判断参数有没有“--help”或“/?”
+				// 这种比较方式比较慢如果参数比较长
+				cout << "帮助：" << endl;
+				cout << setw(4) << "--help    显示帮助" << endl;
+				cout << setw(4) << "--version 显示版本" << endl;
+				cout << setw(4) << "-y        安装无需用户确认（即输入Y）" << endl;
+				return 1; // 停止参数的判断
+			}
+			
 		}
 		return 0;
 	}
@@ -139,7 +150,9 @@ namespace {
 		ClearConsole();
 		string *list = programListPackageName[id - 1];
 		string *name = programList[id - 1];
-		char command[1000] = "sudo apt update && sudo apt install -y ";
+		string command_str = ("sudo apt update && sudo apt install " + checkOption[o.notCheck] + " ").c_str();
+		char command[1000];
+		strcpy(command, command_str.c_str());
 		char package[50];
 		strcpy(package, list[listID - 1].c_str());
 		strcat(command, package);
@@ -170,7 +183,7 @@ namespace {
 		//strcpy(ExePath, ExePath_str.c_str());
 		//strcat(command, "");
 
-		
+
 		cout << "正在安装：" << list2[id - 1] << endl;
 		system(("sudo touch /usr/share/applications/" + list2[id - 1] + ".desktop").c_str());
 		system(("sudo chmod 777 /usr/share/applications/" + list2[id - 1] + ".desktop").c_str());
@@ -212,9 +225,9 @@ int main(int argc, char** argv) {
 	ShowTips();
 	ClearConsole();
 	ShowWelcome();
-	bool firstRun = false;
+	bool firstRun = true;
 	while(1){
-		if(firstRun){
+		if(!firstRun){
 			ShowChoose();
 		}
 		cout << "选择要安装的应用分类：" << endl;
@@ -235,6 +248,7 @@ int main(int argc, char** argv) {
 			string temp;
 			getline(cin, temp);
 			ClearConsole();
+			firstRun = false;
 			continue;
 		}
 		WriteProgramList(atoi(choose.c_str()));
@@ -243,18 +257,18 @@ int main(int argc, char** argv) {
 		getline(cin, chooseProgram);
 		if(chooseProgram == "E" || chooseProgram == "e"){
 			ClearConsole();
-			firstRun = true;
+			firstRun = false;
 			continue;
 		}
 		if(atoi(choose.c_str()) == 2){
 			InstallWineApp(atoi(chooseProgram.c_str()));
 			ClearConsole();
-			firstRun = true;
+			firstRun = false;
 			continue;
 		}
 		InstallProgram(atoi(choose.c_str()), atoi(chooseProgram.c_str()));
 		ClearConsole();
-		firstRun = true;
+		firstRun = false;
 	}
 	return 0;
 }
