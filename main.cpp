@@ -1,3 +1,15 @@
+/*
+ ********************************************************************************
+ * 作者：gfdgd xi                                                               *
+ * 版本：1.0.0                                                                  *
+ * 更新时间：2022年04月09日                                                     *
+ * 需要依赖：toilet                                                             *
+ * 理论支持系统：Windows、Linux                                                 *
+ * 推荐运行系统：Deepin Live Commununity CD                                     *
+ * 项目地址：https://gitee.com/gfdgd-xi/deepin-live-community-cd-mini-app-store *
+ * https://github.com/gfdgd-xi/deepin-live-community-cd-mini-app-store          *
+ ********************************************************************************
+ */
 #include <iostream>
 #include <istream>
 #include <sstream>
@@ -5,8 +17,11 @@
 #include <cstring>
 #include <iomanip>
 #include <fstream>
-const int listNumber = 20;
 using namespace std;
+const int listNumber = 20;
+const int projectUrlNumber = 2;
+const string updateTime = "2022年04年09日";
+const string projectUrl[projectUrlNumber] = {"https://gitee.com/gfdgd-xi/deepin-live-community-cd-mini-app-store", "https://github.com/gfdgd-xi/deepin-live-community-cd-mini-app-store"};
 const string version = "1.0.0";
 const int contTipsWidth = 30;
 const int programListNumber = 3;
@@ -86,15 +101,26 @@ namespace {
 				cout << "软件版本：" << version << endl;
 				return 1; // 停止参数的判断
 			}
+			else if(strcmp(o.argv[i], "--about") == 0){
+				cout << "程序版本：" << version << endl;
+				cout << "程序作者：gfdgd xi" << endl;
+				cout << "更新时间：" << updateTime << endl;
+				cout << "项目链接：" << endl;
+				for(int i=0;i<projectUrlNumber;i++){
+					cout << setw(4) << projectUrl[i] << endl;
+				}
+				return 1;
+			}
 			else if(strcmp(o.argv[i], "--help") == 0 || strcmp(o.argv[i], "/?") == 0){ // 判断参数有没有“--help”或“/?”
 				// 这种比较方式比较慢如果参数比较长
 				cout << "帮助：" << endl;
 				cout << setw(4) << "--help    显示帮助" << endl;
 				cout << setw(4) << "--version 显示版本" << endl;
+				cout << setw(4) << "--about   关于这个软件" << endl;
 				cout << setw(4) << "-y        安装无需用户确认（即输入Y）" << endl;
 				return 1; // 停止参数的判断
 			}
-			
+
 		}
 		return 0;
 	}
