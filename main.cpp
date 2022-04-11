@@ -20,16 +20,16 @@
 using namespace std;
 const int listNumber = 20;
 const int projectUrlNumber = 2;
-const string updateTime = "2022年04年09日";
+const string updateTime = "2022年04年11日";
 const string projectUrl[projectUrlNumber] = {"https://gitee.com/gfdgd-xi/deepin-live-community-cd-mini-app-store", "https://github.com/gfdgd-xi/deepin-live-community-cd-mini-app-store"};
 const string version = "1.0.0";
 const int contTipsWidth = 30;
 const int programListNumber = 3;
 const string checkOption[2] = {"", "-y"};
-string list1[listNumber] = {"deepin 应用商店", "deepin 启动盘制作工具", "deepin 计算器", "deepin 相机", "deepin 邮件", "deepin 帮助", "deepin 视频", "deepin 音乐", "deepin 文档查看器", "deepin 备份还原工具", "deepin 磁盘管理", "deepin 字体管理器", "deepin 终端", "deepin 看图", "deepin 安装器", "deepin 日志收集工具", "deepin 语言记事本", "deepin-wine6", "deepin-wine5"};
+string list1[listNumber] = {"deepin 应用商店", "deepin 启动盘制作工具", "deepin 计算器", "deepin 相机", "deepin 邮件", "deepin 帮助", "deepin 视频", "deepin 音乐", "deepin 文档查看器", "deepin 备份还原工具", "deepin 磁盘管理", "deepin 字体管理器", "deepin 终端", "deepin 看图", "deepin 安装器", "deepin 日志收集工具", "deepin 语言记事本", "deepin-wine6", "deepin-wine5", "安卓模拟器（UEngine）"};
 string list2[listNumber] = {"CPU-Z", "FurMark", "Keyboard_Test_Utility"};
 string list3[listNumber] = {"deepin 应用商店", "星火应用商店"};
-string list1PackageName[listNumber] = {"deepin-app-store", "deepin-boot-maker", "deepin-calculator", "deepin-camera", "deepin-mail", "deepin-manual", "deepin-movie", "deepin-music", "deepin-reader", "deepin-clone", "deepin-diskmanager", "deepin-font-manager", "deepin-terminal", "deepin-image-viewer", "deepin-installer", "deepin-log-viewer", "deepin-voice-note", "deepin-wine6-stable", "deepin-wine5-stable"};
+string list1PackageName[listNumber] = {"deepin-app-store", "deepin-boot-maker", "deepin-calculator", "deepin-camera", "deepin-mail", "deepin-manual", "deepin-movie", "deepin-music", "deepin-reader", "deepin-clone", "deepin-diskmanager", "deepin-font-manager", "deepin-terminal", "deepin-image-viewer", "deepin-installer", "deepin-log-viewer", "deepin-voice-note", "deepin-wine6-stable && sudo apt install spark-deepin-wine-runner -y", "deepin-wine5-stable && sudo apt install spark-deepin-wine-runner", "spark-uengine-runner"};
 string list2PackageName[listNumber] = {"https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/CPU-Z/CPUZ.zip", "https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/FurMark/FurMark.zip", "https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/Keyboard-Test-Utility/Keyboard.Test.Utility.zip"};
 string list3PackageName[listNumber] = {"deepin-app-store", "spark-store"};
 string *programList[programListNumber] = {list1, list2, list3};
@@ -64,7 +64,7 @@ namespace {
 	}
 	void InstallDeepinWine6(){
 		system("sudo apt update");
-		system(("sudo apt install deepin-wine6-stable -y" + checkOption[o.notCheck]).c_str());
+		system(("sudo apt install spark-deepin-wine-runner -y && sudo apt install deepin-wine6-stable -y" + checkOption[o.notCheck]).c_str());
 		system("deepin-wine6-stable exit");
 		DownloadFile("https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/Simsun/simsun.ttc", "~/.wine/drive_c/windows/Fonts");
 		DownloadFile("https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/Simsun/simsunb.ttf", "~/.wine/drive_c/windows/Fonts");
@@ -117,7 +117,7 @@ namespace {
 				cout << setw(4) << "--help    显示帮助" << endl;
 				cout << setw(4) << "--version 显示版本" << endl;
 				cout << setw(4) << "--about   关于这个软件" << endl;
-				cout << setw(4) << "-y        安装无需用户确认（即输入Y）" << endl;
+				cout << setw(4) << "-y        安装无需用户确认（即输入Y）（已废弃）" << endl;
 				return 1; // 停止参数的判断
 			}
 
@@ -150,8 +150,8 @@ namespace {
 	}
 	void ShowTips(){
 		system("toilet Tips!");
-		cout << "在查看应用列表时，退出查看时，需要输入 :q 进行退出" << endl;
-		cout << "如果您想更好的使用，可以学习 vim 的操作！" << endl;
+		cout << "在查看应用列表时，退出查看时，需要按下 Ctrl+X 进行退出" << endl;
+		cout << "如果您想更好的使用，可以学习 nano 的操作！" << endl;
 		cout << "以及安装其它应用需要连接互联网" << endl;
 		cout << "按下回车键继续运行" << endl;
 		string temp;
@@ -176,7 +176,7 @@ namespace {
 		ClearConsole();
 		string *list = programListPackageName[id - 1];
 		string *name = programList[id - 1];
-		string command_str = ("sudo apt update && sudo apt install " + checkOption[o.notCheck] + " ").c_str();
+		string command_str = ("sudo apt update && sudo apt install " + checkOption[o.notCheck] + " -y").c_str();
 		char command[1000];
 		strcpy(command, command_str.c_str());
 		char package[50];
@@ -257,7 +257,7 @@ int main(int argc, char** argv) {
 			ShowChoose();
 		}
 		cout << "选择要安装的应用分类：" << endl;
-		cout << "1. deepin 全家桶" << endl;
+		cout << "1. 常见应用" << endl;
 		cout << "2. wine 应用" << endl;
 		cout << "3. 应用商店" << endl;
 		cout << "E. 退出程序" << endl;
@@ -278,7 +278,7 @@ int main(int argc, char** argv) {
 			continue;
 		}
 		WriteProgramList(atoi(choose.c_str()));
-		system("vim /tmp/test.txt");
+		system("nano /tmp/test.txt");
 		cout << "请输入要选择安装的应用所对的编号：" << endl;
 		getline(cin, chooseProgram);
 		if(chooseProgram == "E" || chooseProgram == "e"){
