@@ -18,7 +18,7 @@
 #include <iomanip>
 #include <fstream>
 using namespace std;
-const int listNumber = 20;
+const int listNumber = 30;
 const int projectUrlNumber = 2;
 const string updateTime = "2022年04年11日";
 const string projectUrl[projectUrlNumber] = {"https://gitee.com/gfdgd-xi/deepin-live-community-cd-mini-app-store", "https://github.com/gfdgd-xi/deepin-live-community-cd-mini-app-store"};
@@ -26,10 +26,10 @@ const string version = "1.0.0";
 const int contTipsWidth = 30;
 const int programListNumber = 3;
 const string checkOption[2] = {"", "-y"};
-string list1[listNumber] = {"deepin 应用商店", "deepin 启动盘制作工具", "deepin 计算器", "deepin 相机", "deepin 邮件", "deepin 帮助", "deepin 视频", "deepin 音乐", "deepin 文档查看器", "deepin 备份还原工具", "deepin 磁盘管理", "deepin 字体管理器", "deepin 终端", "deepin 看图", "deepin 安装器", "deepin 日志收集工具", "deepin 语言记事本", "deepin-wine6", "deepin-wine5", "安卓模拟器（UEngine）"};
+string list1[listNumber] = {"deepin 应用商店", "deepin 启动盘制作工具", "deepin 计算器", "deepin 相机", "deepin 邮件", "deepin 帮助", "deepin 视频", "deepin 音乐", "deepin 文档查看器", "deepin 备份还原工具", "deepin 磁盘管理", "deepin 字体管理器", "deepin 终端", "deepin 看图", "deepin 安装器", "deepin 日志收集工具", "deepin 语言记事本", "deepin-wine6", "deepin-wine5", "安卓模拟器（UEngine）", "apt fast", "QQ（原生版）", "Firefox ESR", "网易云音乐", "fsearch", "简易倒计时工具", "Virtualbox", "qemu"};
 string list2[listNumber] = {"CPU-Z", "FurMark", "Keyboard_Test_Utility"};
 string list3[listNumber] = {"deepin 应用商店", "星火应用商店"};
-string list1PackageName[listNumber] = {"deepin-app-store", "deepin-boot-maker", "deepin-calculator", "deepin-camera", "deepin-mail", "deepin-manual", "deepin-movie", "deepin-music", "deepin-reader", "deepin-clone", "deepin-diskmanager", "deepin-font-manager", "deepin-terminal", "deepin-image-viewer", "deepin-installer", "deepin-log-viewer", "deepin-voice-note", "deepin-wine6-stable && sudo apt install spark-deepin-wine-runner -y", "deepin-wine5-stable && sudo apt install spark-deepin-wine-runner", "spark-uengine-runner"};
+string list1PackageName[listNumber] = {"deepin-app-store", "deepin-boot-maker", "deepin-calculator", "deepin-camera", "deepin-mail", "deepin-manual", "deepin-movie", "deepin-music", "deepin-reader", "deepin-clone", "deepin-diskmanager", "deepin-font-manager", "deepin-terminal", "deepin-image-viewer", "deepin-installer", "deepin-log-viewer", "deepin-voice-note", "deepin-wine6-stable spark-deepin-wine-runner spark.deepin-venturi-setter", "deepin-wine5-stable spark-deepin-wine-runner spark.deepin-venturi-setter", "spark-uengine-runner", "apt-fast", "linuxqq", "firefox-esr", "netease-cloud-music", "fsearch-trunk", "spark.gitee.timer", "virtualbox-6.1", "qemu qemu-kvm"};
 string list2PackageName[listNumber] = {"https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/CPU-Z/CPUZ.zip", "https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/FurMark/FurMark.zip", "https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/Keyboard-Test-Utility/Keyboard.Test.Utility.zip"};
 string list3PackageName[listNumber] = {"deepin-app-store", "spark-store"};
 string *programList[programListNumber] = {list1, list2, list3};
@@ -64,7 +64,7 @@ namespace {
 	}
 	void InstallDeepinWine6(){
 		system("sudo apt update");
-		system(("sudo apt install spark-deepin-wine-runner -y && sudo apt install deepin-wine6-stable -y" + checkOption[o.notCheck]).c_str());
+		system(("sudo apt install spark-deepin-wine-runner spark.deepin-venturi-setter deepin-wine6-stable -y" + checkOption[o.notCheck]).c_str());
 		system("deepin-wine6-stable exit");
 		DownloadFile("https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/Simsun/simsun.ttc", "~/.wine/drive_c/windows/Fonts");
 		DownloadFile("https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/Simsun/simsunb.ttf", "~/.wine/drive_c/windows/Fonts");
