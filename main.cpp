@@ -2,7 +2,7 @@
  ********************************************************************************
  * 作者：gfdgd xi、为什么您不喜欢熊出没和阿布呢                                 *
  * 版本：1.1.0                                                                  *
- * 更新时间：2022年07月21日                                                     *
+ * 更新时间：2022年07月22日                                                     *
  * 需要依赖：toilet、nano                                                       *
  * 理论支持系统：Linux                                                          *
  * 推荐运行系统：Deepin Live Commununity CD                                     *
@@ -21,18 +21,18 @@
 using namespace std;
 const int listNumber = 30;
 const int projectUrlNumber = 2;
-const string updateTime = "2022年04年11日";
+const string updateTime = "2022年07月22日";
 const string projectUrl[projectUrlNumber] = {"https://gitee.com/gfdgd-xi/deepin-live-community-cd-mini-app-store", "https://github.com/gfdgd-xi/deepin-live-community-cd-mini-app-store"};
 const string version = "1.1.0";
 const int contTipsWidth = 30;
 const int programListNumber = 3;
 const string checkOption[2] = {"", "-y"};
 string list1[listNumber] = {"deepin 应用商店", "deepin 启动盘制作工具", "deepin 计算器", "deepin 相机", "deepin 邮件", "deepin 帮助", "deepin 视频", "deepin 音乐", "deepin 文档查看器", "deepin 备份还原工具", "deepin 磁盘管理", "deepin 字体管理器", "deepin 终端", "deepin 看图", "deepin 安装器", "deepin 日志收集工具", "deepin 语言记事本", "deepin-wine6", "deepin-wine5", "安卓模拟器（UEngine）", "apt fast", "QQ（原生版）", "Firefox ESR", "网易云音乐", "fsearch", "简易倒计时工具", "Virtualbox", "qemu", "Wine 运行器"};
-string list2[listNumber] = {"CPU-Z", "FurMark", "Keyboard_Test_Utility"};
-string list3[listNumber] = {"deepin 应用商店", "星火应用商店"};
-string list1PackageName[listNumber] = {"deepin-app-store", "deepin-boot-maker", "deepin-calculator", "deepin-camera", "deepin-mail", "deepin-manual", "deepin-movie", "deepin-music", "deepin-reader", "deepin-clone", "deepin-diskmanager", "deepin-font-manager", "deepin-terminal", "deepin-image-viewer", "deepin-installer", "deepin-log-viewer", "deepin-voice-note", "deepin-wine6-stable spark-deepin-wine-runner spark.deepin-venturi-setter", "deepin-wine5-stable spark-deepin-wine-runner spark.deepin-venturi-setter", "spark-uengine-runner", "apt-fast", "linuxqq", "firefox-esr", "netease-cloud-music", "fsearch-trunk", "spark.gitee.timer", "virtualbox-6.1", "qemu qemu-kvm", "spark-deepin-wine-runner"};
-string list2PackageName[listNumber] = {"https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/CPU-Z/CPUZ.zip", "https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/FurMark/FurMark.zip", "https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/Keyboard-Test-Utility/Keyboard.Test.Utility.zip"};
-string list3PackageName[listNumber] = {"deepin-app-store", "spark-store"};
+string list2[listNumber] = {"CPU-Z", "FurMark", "Keyboard_Test_Utility", "DisplayX", "NTPWEdit"};
+string list3[listNumber] = {"deepin 应用商店", "星火应用商店", "星火应用商店终端版"};
+string list1PackageName[listNumber] = {"deepin-app-store", "deepin-boot-maker", "deepin-calculator", "deepin-camera", "deepin-mail", "deepin-manual", "deepin-movie", "deepin-music", "deepin-reader", "deepin-clone", "deepin-diskmanager", "deepin-font-manager", "deepin-terminal", "deepin-image-viewer", "deepin-installer", "deepin-log-viewer", "deepin-voice-note", "deepin-wine6-stable spark-deepin-wine-runner", "deepin-wine5-stable spark-deepin-wine-runner", "com.gitee.uengine.runner.spark", "apt-fast", "linuxqq", "firefox-esr", "netease-cloud-music", "fsearch-trunk", "spark.gitee.timer", "virtualbox-6.1", "qemu", "spark-deepin-wine-runner"};
+string list2PackageName[listNumber] = {"https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/CPU-Z/CPUZ.zip", "https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/FurMark/FurMark.zip", "https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/Keyboard-Test-Utility/Keyboard.Test.Utility.zip", "https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/DisplayX/DisplayX.zip", "https://download.fastgit.org/gfdgd-xi/program-internet-library/releases/download/NTPWEdit/NTPWEdit.zip"};
+string list3PackageName[listNumber] = {"deepin-app-store", "spark-store", "spark-store-console"};
 string *programList[programListNumber] = {list1, list2, list3};
 string *programListPackageName[programListNumber] = {list1PackageName, list2PackageName, list3PackageName};
 struct Opt{
@@ -86,13 +86,13 @@ namespace {
 	}
 	void WriteProgramList(int id){
 		string *list = programList[id - 1];
-		ofstream files;
-		files.open("/tmp/test.txt");
-		files << "请选择您要安装的应用（可以使用方向键操作指针），然后输入按下 Ctrl + X 退出再输入要安装应用前面对应的编号：" << endl;
+		//ofstream files;
+		//files.open("/tmp/test.txt");
+		cout << "请选择您要安装的应用，输入要安装应用前面对应的编号：" << endl;
 		for(int i=0;i<listNumber;i++){
-			files << i + 1 << ". " << list[i] << endl;
+			cout << i + 1 << ". " << list[i] << endl;
 		}
-		files.close();
+		//files.close();
 	}
 	int GetHelp(){
 		for(int i=1;i<o.argc;i++){
@@ -126,21 +126,6 @@ namespace {
 		}
 		return 0;
 	}
-	/*void InstallChoose(string tipsInformation, char command[50]){
-		string input;
-		cout << tipsInformation << "[Y/N]";
-		getline(cin, input);
-		if(input == "Y" || input == "y"){
-			system(command);
-		}
-
-	}
-	void ShowSharp(){
-		for(int i=0;i<contTipsWidth;i++){
-			cout << "#";
-		}
-		cout << endl;
-	}*/
 	void ShowReady(){
 		system("toilet Ready!");
 	}
@@ -206,12 +191,6 @@ namespace {
 				return;
 			}
 		}
-		//char command[500] = "deepin-wine6-stable ";
-		//char ExePath[100];
-		//strcpy(ExePath, ExePath_str.c_str());
-		//strcat(command, "");
-
-
 		cout << "正在安装：" << list2[id - 1] << endl;
 		system(("sudo touch /usr/share/applications/" + list2[id - 1] + ".desktop").c_str());
 		system(("sudo chmod 777 /usr/share/applications/" + list2[id - 1] + ".desktop").c_str());
@@ -228,7 +207,6 @@ namespace {
 		desktopFile << "Exec=deepin-wine6-stable /opt/apps/wine-app/" << list2[id - 1] << "/main.exe" << endl;
 		desktopFile << "Icon=deepin-clone" << endl;
 		desktopFile << "Name=" << list2[id - 1] << endl;
-		//desktopFile << "Name[zh]=社区论坛" << endl;
 		desktopFile << "Type=Application" << endl;
 		desktopFile << "X-Deepin-Vendor=deepin" << endl;
 		desktopFile.close();
@@ -260,13 +238,13 @@ namespace {
 	Internet internet;
 	void WriteProgramListInternet(int id){
 		int list = internet.internetList[id - 1].size();
-		ofstream files;
-		files.open("/tmp/test.txt");
-		files << "请选择您要安装的应用（可以使用方向键操作指针），然后输入按下 Ctrl + X 退出再输入要安装应用前面对应的编号：" << endl;
+		//ofstream files;
+		//files.open("/tmp/test.txt");
+		cout << "请选择您要安装的应用，输入要安装应用前面对应的编号：" << endl;
 		for(int i=0;i<list;i++){
-			files << i + 1 << ". " << internet.internetList[id - 1][i].asString() << endl;
+			cout << i + 1 << ". " << internet.internetList[id - 1][i].asString() << endl;
 		}
-		files.close();
+		//files.close();
 		
 		//cout << GetAPI();
 		//sleep(50000);
@@ -274,7 +252,6 @@ namespace {
 	void InstallProgramInternet(int id, int listID){
 		ClearConsole();
 		ShowInstall();
-		//string *list = programListPackageName[id - 1];
 		string name = internet.internetList[id - 1 + 3][listID - 1].asString();
 		string command_str = ("sudo apt update && sudo apt install " + name).c_str();
 		cout << "正在安装应用“" << internet.internetList[id - 1][listID - 1] << "”" << endl;
@@ -316,7 +293,6 @@ namespace {
 		desktopFile << "Exec=deepin-wine6-stable /opt/apps/wine-app/" << name << "/main.exe" << endl;
 		desktopFile << "Icon=deepin-clone" << endl;
 		desktopFile << "Name=" << name << endl;
-		//desktopFile << "Name[zh]=社区论坛" << endl;
 		desktopFile << "Type=Application" << endl;
 		desktopFile << "X-Deepin-Vendor=deepin" << endl;
 		desktopFile.close();
@@ -327,7 +303,6 @@ namespace {
 	int GetInternetList(){
 		Json::Reader reader;
 		Json::Value value;
-		string test = "[1, 2, 3]";
 		if(!reader.parse(GetAPI(), value)){
 			return 1;
 		}		
@@ -339,12 +314,12 @@ namespace {
 			if(!firstRun){
 				ShowChoose();
 			}
-			cout << "选择要安装的应用分类：" << endl;
+			cout << "选择要安装的应用分类（在线列表）：" << endl;
 			cout << "1. 常见应用" << endl;
 			cout << "2. wine 应用" << endl;
 			cout << "3. 应用商店" << endl;
 			cout << "E. 退出程序" << endl;
-			cout << "请输入要选择安装的应用分类：" << endl;
+			cout << "请输入要选择安装的应用分类（输入 E 或 e 取消）：" << endl;
 			string choose;
 			string chooseProgram;
 			getline(cin, choose);
@@ -360,9 +335,7 @@ namespace {
 				firstRun = false;
 				continue;
 			}
-			//WriteProgramList(atoi(choose.c_str()));
 			WriteProgramListInternet(atoi(choose.c_str()));
-			system("nano /tmp/test.txt");
 			cout << "请输入要选择安装的应用所对的编号（输入 E 或 e 取消）：" << endl;
 			getline(cin, chooseProgram);
 			if(chooseProgram == "E" || chooseProgram == "e"){
@@ -390,10 +363,6 @@ int main(int argc, char** argv) {
 	o.argv = argv;
 	// 判断是否有获取参数
 	if(::GetHelp()){return 0;} // 判断是否有帮助参数，有的话显示帮助内容后关闭程序
-	//cin>>a;
-	//GetInput(&a);
-	//A::InstallChoose("是否安装星火应用商店？", "spark-store");
-	//cout << a;
 	ShowReady();
 	ClearConsole();
 	ShowTips();
@@ -407,7 +376,7 @@ int main(int argc, char** argv) {
 		if(!firstRun){
 			ShowChoose();
 		}
-		cout << "选择要安装的应用分类：" << endl;
+		cout << "选择要安装的应用分类（离线列表）：" << endl;
 		cout << "1. 常见应用" << endl;
 		cout << "2. wine 应用" << endl;
 		cout << "3. 应用商店" << endl;
@@ -429,8 +398,8 @@ int main(int argc, char** argv) {
 			continue;
 		}
 		WriteProgramList(atoi(choose.c_str()));
-		system("nano /tmp/test.txt");
-		cout << "请输入要选择安装的应用所对的编号：" << endl;
+		//system("nano /tmp/test.txt");
+		cout << "请输入要选择安装的应用所对的编号（输入 E 或 e 取消）：" << endl;
 		getline(cin, chooseProgram);
 		if(chooseProgram == "E" || chooseProgram == "e"){
 			ClearConsole();
